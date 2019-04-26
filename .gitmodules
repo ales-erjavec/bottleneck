@@ -1,0 +1,6 @@
+[submodule "multibuild"]
+	path = multibuild
+	url = https://github.com/matthew-brett/multibuild.git
+[submodule "bottleneck"]
+	path = bottleneck
+	url = https://github.com/kwgoodman/bottleneck.git
