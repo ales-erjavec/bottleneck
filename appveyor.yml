@@ -8,8 +8,8 @@ environment:
     BUILD_COMMIT: master
 
     PIP_DISABLE_PIP_VERSION_CHECK: "1"
-    PIP_BUILD_DEP: "pip~=19.0.0 wheel~=0.26.0"
-    TEST_DEP: "numpy~=1.15.0 nose"
+    BUILD_DEP: "pip~=19.0 wheel~=0.26.0"
+    TEST_DEP: "numpy~=1.15.0 pytest"
 
   matrix:
 
@@ -27,11 +27,11 @@ environment:
 
     - PYTHON: "C:\\Python37"
       BUILD_DEP: "--only-binary numpy numpy==1.14.5"
-      TEST_DEP: "numpy~=1.16.0 nose"
+      TEST_DEP: "numpy~=1.16.0 pytest"
 
     - PYTHON: "C:\\Python37-x64"
       BUILD_DEP: "--only-binary numpy numpy==1.14.5"
-      TEST_DEP: "numpy~=1.16.0 nose"
+      TEST_DEP: "numpy~=1.16.0 pytest"
 
 cache:
   - '%LOCALAPPDATA%\pip\Cache'
@@ -39,7 +39,7 @@ cache:
 install:
   - set "WHEELDIR=%CWD%\wheels"
   - SET PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%
-  - python -m pip install %PIP_BUILD_DEP%
+  - python -m pip install pip~=19.0 wheel~=0.26.0
   - python -m pip install %BUILD_DEP%
   # https://bugs.python.org/issue29943
   - python -c "import sys; assert not sys.version_info[:3] == (3, 6, 1)"
@@ -59,7 +59,8 @@ test_script:
   - cd build
   - python -m pip install -U pip~=19.0 wheel
   - pip install %TEST_DEP%
-  - pip install --no-index --pre -f "%WHEELDIR%" %PROJECT_NAME%
+  - pip install --no-index --no-deps --pre -f "%WHEELDIR%" %PROJECT_NAME%
+  - pip install %PROJECT_NAME%
   - pip list
   - python -c "import bottleneck as bn; bn.test();"
   - cd ..
