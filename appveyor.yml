@@ -37,7 +37,7 @@ cache:
   - '%LOCALAPPDATA%\pip\Cache'
 
 install:
-  - set "WHEELDIR=%CWD%\wheels"
+  - set "WHEELDIR=%CD%\wheels"
   - SET PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%
   - python -m pip install pip~=19.0 wheel~=0.26.0
   - python -m pip install %BUILD_DEP%
