@@ -3,4 +3,4 @@
 	url = https://github.com/matthew-brett/multibuild.git
 [submodule "bottleneck"]
 	path = bottleneck
-	url = https://github.com/kwgoodman/bottleneck.git
+	url = https://github.com/pydata/bottleneck.git

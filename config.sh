@@ -1,5 +1,4 @@
 
-# redefined
-function build_wheel {
-    build_wheel_cmd "bdist_wheel_cmd" $@
+function run_tests {
+    python -c "import bottleneck as bn; bn.test()"
 }

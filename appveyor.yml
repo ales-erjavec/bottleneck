@@ -5,33 +5,24 @@ environment:
     PROJECT_NAME: bottleneck
     REPO_DIR: bottleneck
     BUILD_BRANCH: master
-    BUILD_COMMIT: master
+    BUILD_COMMIT: 7ac20de1e816006f765ede2c74a49748aefd7360
 
     PIP_DISABLE_PIP_VERSION_CHECK: "1"
-    BUILD_DEP: "pip~=19.0 wheel~=0.26.0"
-    TEST_DEP: "numpy~=1.15.0 pytest"
+    PIP_PREFER_BINARY: "1"
+
+    PIP_BUILD_DEP: "pip~=19.0 wheel"
+    TEST_DEPENDS: "pytest"
 
   matrix:
-
-    - PYTHON: "C:\\Python35-x64"
-      BUILD_DEP: "--only-binary numpy numpy==1.13.3"
-
     - PYTHON: "C:\\Python35"
-      BUILD_DEP: "--only-binary numpy numpy==1.13.3"
-
+    - PYTHON: "C:\\Python35-x64"
     - PYTHON: "C:\\Python36"
-      BUILD_DEP: "--only-binary numpy numpy==1.13.3"
-
     - PYTHON: "C:\\Python36-x64"
-      BUILD_DEP: "--only-binary numpy numpy==1.13.3"
 
     - PYTHON: "C:\\Python37"
-      BUILD_DEP: "--only-binary numpy numpy==1.14.5"
-      TEST_DEP: "numpy~=1.16.0 pytest"
-
     - PYTHON: "C:\\Python37-x64"
-      BUILD_DEP: "--only-binary numpy numpy==1.14.5"
-      TEST_DEP: "numpy~=1.16.0 pytest"
+    - PYTHON: "C:\\Python38"
+    - PYTHON: "C:\\Python38-x64"
 
 cache:
   - '%LOCALAPPDATA%\pip\Cache'
@@ -39,8 +30,8 @@ cache:
 install:
   - set "WHEELDIR=%CD%\wheels"
   - SET PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%
-  - python -m pip install pip~=19.0 wheel~=0.26.0
-  - python -m pip install %BUILD_DEP%
+
+  - python -m pip install %PIP_BUILD_DEP%
   # https://bugs.python.org/issue29943
   - python -c "import sys; assert not sys.version_info[:3] == (3, 6, 1)"
 
@@ -51,14 +42,14 @@ before_build:
   - git checkout %BUILD_COMMIT%
 
 build_script:
-  - python setup.py %BUILD_GLOBAL_OPTIONS% bdist_wheel --dist-dir "%WHEELDIR%"
+  - python -m pip wheel --no-deps ./ -w "%WHEELDIR%"
 
 test_script:
-  - python -m venv build\test
-  - .\build\test\Scripts\activate
+  - python -m venv build\testenv
   - cd build
+  - .\testenv\Scripts\activate
   - python -m pip install -U pip~=19.0 wheel
-  - pip install %TEST_DEP%
+  - pip install %TEST_DEPENDS%
   - pip install --no-index --no-deps --pre -f "%WHEELDIR%" %PROJECT_NAME%
   - pip install %PROJECT_NAME%
   - pip list
