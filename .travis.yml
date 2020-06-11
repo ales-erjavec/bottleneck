@@ -11,7 +11,7 @@ env:
     - PROJECT_NAME=bottleneck
     - REPO_DIR=bottleneck
     - BUILD_BRANCH=master
-    - BUILD_COMMIT=7ac20de1e816006f765ede2c74a49748aefd7360
+    - BUILD_COMMIT=v1.3.2
 
     - PIP_DISABLE_PIP_VERSION_CHECK=1
     # PyPi wheel build requirements
