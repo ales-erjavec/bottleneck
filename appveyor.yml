@@ -2,6 +2,7 @@
 
 environment:
   global:
+    REPO_URL: https://github.com/pydata/bottleneck.git
     PROJECT_NAME: bottleneck
     REPO_DIR: bottleneck
     BUILD_BRANCH: master
@@ -37,8 +38,9 @@ install:
 
 before_build:
   - git submodule update --init
-  - git fetch origin %BUILD_BRANCH%
+  - git clone %REPO_URL% %REPO_DIR%
   - cd %REPO_DIR%
+  - git fetch origin %BUILD_BRANCH%
   - git checkout %BUILD_COMMIT%
 
 build_script:

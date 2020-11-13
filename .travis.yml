@@ -8,6 +8,7 @@ services: docker
 
 env:
   global:
+    - REPO_URL=https://github.com/pydata/bottleneck.git
     - PROJECT_NAME=bottleneck
     - REPO_DIR=bottleneck
     - BUILD_BRANCH=master
@@ -77,6 +78,7 @@ before_install:
 
 install:
     # Maybe get and clean and patch source
+    - git clone %REPO_URL% %REPO_DIR%
     - clean_code $REPO_DIR $BUILD_COMMIT
     - build_wheel $REPO_DIR $PLAT
 
